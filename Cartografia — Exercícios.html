@@ -1,0 +1,265 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Cartografia — Exercícios</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: folha de exercícios em coluna única; cada exercício é um cartão com banco de palavras e botões no fundo */
+:root{
+  --bg:#ebf0ee; --surface:#ffffff; --ink:#1c2a29; --muted:#566765; --line:#cfd9d6;
+  --sea:#1d6a85; --sea-soft:#dcebf1; --chip:#fbf3e3; --chip-line:#d8b878;
+  --ok:#2b7a4b; --ok-soft:#dff1e6; --no:#b3261e; --no-soft:#fbe3e1;
+  --display:"Zilla Slab", Georgia, "Times New Roman", serif;
+  --body:"Source Sans 3", "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121a1a; --surface:#1b2525; --ink:#e3ecea; --muted:#9fb1ae; --line:#2f3d3c;
+  --sea:#6fb8d3; --sea-soft:#1c3440; --chip:#2e2717; --chip-line:#8a6d33;
+  --ok:#6cc98f; --ok-soft:#173726; --no:#f08a80; --no-soft:#3d1a18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121a1a; --surface:#1b2525; --ink:#e3ecea; --muted:#9fb1ae; --line:#2f3d3c;
+  --sea:#6fb8d3; --sea-soft:#1c3440; --chip:#2e2717; --chip-line:#8a6d33;
+  --ok:#6cc98f; --ok-soft:#173726; --no:#f08a80; --no-soft:#3d1a18; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:22px}
+header{display:grid;gap:8px}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--sea);font-weight:700}
+h1{font-family:var(--display);font-size:clamp(28px,5vw,42px);line-height:1.1;margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:0;max-width:65ch}
+nav{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px}
+nav a{font-size:14px;font-weight:600;color:var(--sea);text-decoration:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px}
+nav a:hover,nav a:focus-visible{border-color:var(--sea);outline:none}
+nav a .tipo{color:var(--muted);font-weight:400}
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:16px;scroll-margin-top:70px}
+.ex-head{display:grid;gap:4px}
+.ex-head .n{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h2{font-family:var(--display);font-size:24px;margin:0;line-height:1.2;text-wrap:balance}
+.instr{margin:0;color:var(--muted);font-size:15px}
+.defs{display:grid;gap:14px}
+.def{display:grid;gap:2px}
+.def b{font-family:var(--display);font-size:18px;color:var(--sea)}
+.def p{margin:0;line-height:2.1}
+.slot{display:inline-flex;align-items:center;justify-content:center;min-width:7.5em;min-height:1.9em;vertical-align:middle;
+  border:1.5px dashed var(--muted);border-radius:6px;background:var(--bg);margin:0 2px;padding:0 2px;cursor:pointer}
+.slot.hot,.slot:focus-visible{border-color:var(--sea);background:var(--sea-soft);outline:none}
+.slot.ok{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+.slot.no{border-style:solid;border-color:var(--no);background:var(--no-soft)}
+.bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;border-radius:8px;background:var(--sea-soft);min-height:56px;align-content:flex-start}
+.bank-label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:-8px}
+.chip{font:inherit;font-size:16px;color:var(--ink);background:var(--chip);border:1px solid var(--chip-line);border-radius:6px;
+  padding:2px 10px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;line-height:1.5}
+.chip.sel{outline:3px solid var(--sea);outline-offset:1px}
+.chip:focus-visible{outline:3px solid var(--sea)}
+.slot .chip{border-color:transparent;background:transparent;padding:0 6px}
+.ghost{position:fixed;pointer-events:none;z-index:50;opacity:.9;box-shadow:0 6px 18px rgba(0,0,0,.25);max-width:420px}
+/* correspondência */
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.rows{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:9.5em minmax(0,1fr);gap:10px;align-items:stretch}
+.row .conceito{font-family:var(--display);font-weight:700;font-size:17px;color:var(--sea);display:flex;align-items:center}
+.row .slot{display:flex;min-height:3.2em;width:100%;margin:0;justify-content:stretch}
+.row .slot .chip{width:100%;text-align:left}
+.match .bank{flex-direction:column;flex-wrap:nowrap}
+.chip.def-card{font-size:15px;line-height:1.4;padding:8px 10px;text-align:left}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:700;font-size:15px;border-radius:6px;padding:8px 16px;cursor:pointer;border:1px solid var(--sea)}
+.btn.main{background:var(--sea);color:var(--surface)}
+.btn.sec{background:transparent;color:var(--sea)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.fb{font-weight:700;margin:0}
+.fb.ok{color:var(--ok)} .fb.no{color:var(--no)}
+footer{color:var(--muted);font-size:14px;text-align:center;display:grid;gap:4px}
+@media (max-width:720px){.match{grid-template-columns:minmax(0,1fr)}.row{grid-template-columns:minmax(0,1fr)}.match .bank{order:-1}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Geografia · 7.º ano · A Terra: estudos e representações</span>
+    <h1>Cartografia e Representação do Espaço — Exercícios</h1>
+    <p class="lede">Completa as definições com as palavras do quadro e liga cada conceito à sua definição. Arrasta as palavras ou toca numa palavra e depois no espaço. No fim de cada exercício, carrega em <b>Verificar</b>.</p>
+  </header>
+  <nav id="nav" aria-label="Exercícios"></nav>
+  <main id="main" class="wrap" style="gap:22px"></main>
+  <footer>
+    <span>Agrupamento de Escolas Monte da Lua · Prof. Francisco Cavaco · 2026/27</span>
+    <span>Powered by Claude IA &amp; Ideias&amp;Soltas — concepção de produtos multimédia</span>
+  </footer>
+</div>
+
+<script>
+const EX=[
+ {tipo:'lac',topo:true,titulo:'Globo, mapa, cartografia e projeção',itens:[
+  ['Globo','Representação [esférica] da superfície terrestre. Representa a Terra com [correção], mas tem pouco [pormenor], não permite ver toda a superfície ao mesmo tempo e é difícil de [transportar].'],
+  ['Mapa','Representação da [totalidade] ou de parte da superfície terrestre num [plano]. Permite representar toda a superfície com diferentes graus de [pormenor] e é fácil de transportar, mas apresenta [distorções].'],
+  ['Cartografia','Ciência e [arte] de representar a superfície terrestre, total ou parcialmente, através de [mapas], [globos] e outras formas [gráficas].'],
+  ['Projeção cartográfica','Método que consiste na projeção da forma quase [esférica] da Terra num [plano]. Como não é possível «achatar» uma esfera sem a [deformar], todas as projeções apresentam [distorções] em alguma parte do mapa.']]},
+ {tipo:'lac',topo:true,titulo:'Imagens e desenhos do espaço',itens:[
+  ['Imagem de satélite','Imagem obtida por [sensores] a bordo de [satélites] artificiais, a centenas de [quilómetros] de altitude.'],
+  ['Fotografia aérea','Imagem captada a partir de uma [aeronave] ou [drone], na [vertical] ou [oblíqua].'],
+  ['Ortofotomapa','Fotografia [aérea] corrigida [geometricamente], que combina a riqueza de [pormenor] da fotografia com a precisão [métrica] de um mapa.'],
+  ['Esboço cartográfico','Desenho [esquemático] e [simplificado] que realça os elementos mais [significativos] da paisagem.'],
+  ['Mapa mental','Representação [cognitiva] que cada pessoa tem de um determinado [lugar], baseada nas suas [perceções] e vivências.']]},
+ {tipo:'lac',titulo:'SIG e propriedades das projeções',itens:[
+  ['Sistemas de Informação Geográfica (SIG)','Sistemas [informáticos] que permitem recolher, armazenar, [analisar] e cruzar dados [georreferenciados] em [camadas] digitais.'],
+  ['Informação georreferenciada','Informação que possui [coordenadas] geográficas ([latitude], [longitude] e altitude), o que permite localizar cada elemento com rigor no território.'],
+  ['Projeções conformes','Mantêm a [forma] e os [ângulos] das regiões, mas distorcem fortemente as [áreas] (ex.: projeção de [Mercator]).'],
+  ['Projeções equivalentes','Mantêm a proporção real das [áreas], mas distorcem as [formas] dos continentes (ex.: projeção de [Gall-Peters]).'],
+  ['Projeções afiláticas','Também chamadas de [compromisso]: não preservam exatamente nem as formas nem as áreas, mas [minimizam] o conjunto das distorções (ex.: projeção de [Robinson]).']]},
+ {tipo:'lac',titulo:'Tipos de mapas e elementos do mapa',itens:[
+  ['Mapas gerais (ou de base)','Apresentam informação [geral] sobre a superfície terrestre (altitude, rios, povoações, estradas) sem destacar nenhum [tema] em particular. Servem de [base] para construir os mapas temáticos.'],
+  ['Mapas temáticos','Representam um tema ou [fenómeno] específico, físico ou humano, usando cores, [símbolos] e legendas próprias sobre uma base [cartográfica].'],
+  ['Escala','Indica quantas vezes a realidade foi [reduzida] para caber no mapa. Pode ser [numérica] ou [gráfica].'],
+  ['Orientação','Mostra a [direção], através da [rosa dos ventos] ou de uma seta a norte. Por norma, o [topo] do mapa aponta para [norte].'],
+  ['Legenda','Explica o significado dos [símbolos], das [linhas] e das [cores] utilizados no mapa.']]},
+ {tipo:'cor',titulo:'Formas de representação',pares:[
+  ['Globo','Representação esférica da Terra, com poucas distorções, mas pouco pormenor e difícil de transportar.'],
+  ['Mapa','Representação num plano de toda ou de parte da superfície terrestre; prático, mas com distorções.'],
+  ['Imagem de satélite','Imagem obtida por sensores a centenas de quilómetros de altitude; abrange grandes áreas.'],
+  ['Fotografia aérea oblíqua','Imagem tirada de avião ou drone em ângulo; mostra bem o relevo, mas a escala varia do primeiro plano para o fundo.'],
+  ['Ortofotomapa','Fotografia aérea vertical corrigida geometricamente, que permite medir distâncias e áreas.'],
+  ['Esboço cartográfico','Desenho simplificado de uma área real, com título, legenda e escala.'],
+  ['Mapa mental','Desenho feito de memória, sem escala, que mostra o que cada pessoa valoriza e sente de um lugar.'],
+  ['SIG','Sistemas informáticos que cruzam informação georreferenciada em camadas digitais (ex.: Google Maps).']]},
+ {tipo:'cor',titulo:'Projeções cartográficas',pares:[
+  ['Cilíndrica','Um cilindro envolve a Terra: menor distorção no Equador, maior nos polos. Ideal para planisférios.'],
+  ['Cónica','Um cone assenta sobre parte do globo: menor distorção nas latitudes médias.'],
+  ['Azimutal (polar)','Um plano toca o globo num ponto, normalmente um polo: a distorção aumenta para as margens.'],
+  ['Conforme','Mantém as formas e os ângulos, mas aumenta muito as áreas nas altas latitudes (Mercator).'],
+  ['Equivalente','Mantém a proporção das áreas, mas deforma os contornos dos continentes (Gall-Peters).'],
+  ['Afilática','Não mantém exatamente formas nem áreas, mas reduz o conjunto das distorções (Robinson).']]},
+ {tipo:'cor',titulo:'Elementos do mapa',pares:[
+  ['Título','Indica o assunto representado no mapa.'],
+  ['Orientação','Mostra a direção, através da rosa dos ventos ou de uma seta a norte.'],
+  ['Escala','Indica quantas vezes a realidade foi reduzida; pode ser numérica ou gráfica.'],
+  ['Legenda','Explica o significado dos símbolos, das linhas e das cores.'],
+  ['Fonte','Refere a origem da informação representada no mapa.']]},
+ {tipo:'cor',titulo:'Mapas gerais e mapas temáticos',pares:[
+  ['Carta topográfica','Mapa geral que mostra o relevo com curvas de nível, as vias de comunicação e os rios.'],
+  ['Planta urbana','Mapa geral, de grande escala, de uma vila ou cidade.'],
+  ['Planisfério geral','Mapa geral de toda a Terra, com os continentes e os oceanos.'],
+  ['Mapa hipsométrico','Mapa temático que representa a altitude com cores convencionais (verdes, amarelos, castanhos).'],
+  ['Mapa político','Mapa temático com fronteiras, países e capitais.'],
+  ['Mapa demográfico','Mapa temático que representa, por exemplo, a densidade populacional.']]}
+];
+
+const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let selected=null;
+
+function chip(val,txt,isDef){const c=$('button','chip'+(isDef?' def-card':''));c.type='button';c.dataset.v=val;c.textContent=txt;return c}
+
+function build(){
+  const nav=document.getElementById('nav'),main=document.getElementById('main');
+  EX.forEach((ex,i)=>{
+    const id='ex'+(i+1);
+    const a=$('a','',`${i+1} <span class="tipo">· ${ex.tipo==='lac'?'lacunas':'correspondência'}</span>`);a.href='#'+id;nav.appendChild(a);
+    const sec=$('section','ex');sec.id=id;
+    sec.appendChild($('div','ex-head',`<span class="n">Exercício ${i+1} · ${ex.tipo==='lac'?'Completa as definições':'Liga o conceito à definição'}</span><h2>${esc(ex.titulo)}</h2>
+      <p class="instr">${ex.tipo==='lac'?'Arrasta cada palavra do quadro para o espaço certo. Algumas palavras podem aparecer mais do que uma vez.':'Arrasta cada definição para o espaço ao lado do conceito certo.'}</p>`));
+    const bank=$('div','bank');bank.setAttribute('aria-label','Quadro de palavras');
+    let chips=[];
+    if(ex.tipo==='lac'){
+      const defs=$('div','defs');
+      ex.itens.forEach(([nome,txt])=>{
+        const d=$('div','def');d.appendChild($('b','',esc(nome)));
+        const p=$('p');
+        txt.split(/(\[[^\]]+\])/).forEach(part=>{
+          const m=part.match(/^\[(.+)\]$/);
+          if(m){const s=$('span','slot');s.dataset.ans=m[1];s.tabIndex=0;s.setAttribute('role','button');s.setAttribute('aria-label','espaço em branco');p.appendChild(s);chips.push(chip(m[1],m[1]))}
+          else p.appendChild(document.createTextNode(part));
+        });
+        d.appendChild(p);defs.appendChild(d);
+      });
+      const lab=$('div','bank-label','Quadro de palavras');
+      if(ex.topo){sec.appendChild(lab);sec.appendChild(bank);sec.appendChild(defs)}
+      else{sec.appendChild(defs);sec.appendChild(lab);sec.appendChild(bank)}
+    }else{
+      const m=$('div','match'),rows=$('div','rows');
+      ex.pares.forEach(([c,d],k)=>{
+        const r=$('div','row');r.appendChild($('div','conceito',esc(c)));
+        const s=$('div','slot');s.dataset.ans='p'+k;s.tabIndex=0;s.setAttribute('role','button');s.setAttribute('aria-label','definição de '+c);
+        r.appendChild(s);rows.appendChild(r);chips.push(chip('p'+k,d,true));
+      });
+      m.appendChild(rows);m.appendChild(bank);sec.appendChild(m);
+    }
+    shuffle(chips).forEach(c=>bank.appendChild(c));
+    const act=$('div','actions');
+    const bV=$('button','btn main','Verificar'),bR=$('button','btn sec','Recomeçar'),bS=$('button','btn sec','Ver solução');
+    [bV,bR,bS].forEach(b=>{b.type='button';act.appendChild(b)});
+    const fb=$('p','fb');fb.setAttribute('aria-live','polite');act.appendChild(fb);
+    sec.appendChild(act);main.appendChild(sec);
+    bV.onclick=()=>check(sec);
+    bR.onclick=()=>{reset(sec);shuffle([...bank.children]).forEach(c=>bank.appendChild(c))};
+    bS.onclick=()=>{reset(sec);sec.querySelectorAll('.slot').forEach(s=>{const c=[...bank.children].find(x=>x.dataset.v===s.dataset.ans);if(c)s.appendChild(c)});check(sec)};
+  });
+}
+
+function clearMarks(sec){sec.querySelectorAll('.slot').forEach(s=>s.classList.remove('ok','no'));const f=sec.querySelector('.fb');f.textContent='';f.className='fb'}
+function reset(sec){const bank=sec.querySelector('.bank');sec.querySelectorAll('.slot .chip').forEach(c=>bank.appendChild(c));clearMarks(sec);unselect()}
+function check(sec){
+  let ok=0,tot=0,vaz=0;
+  sec.querySelectorAll('.slot').forEach(s=>{tot++;const c=s.querySelector('.chip');s.classList.remove('ok','no');
+    if(!c){vaz++;s.classList.add('no');return}
+    if(c.dataset.v===s.dataset.ans){ok++;s.classList.add('ok')}else s.classList.add('no')});
+  const f=sec.querySelector('.fb');
+  if(ok===tot){f.textContent=`Excelente! ${ok} de ${tot} certas.`;f.className='fb ok'}
+  else{f.textContent=`Tens ${ok} de ${tot} certas.`+(vaz?` Faltam ${vaz} por preencher.`:'')+' Corrige as que estão a vermelho.';f.className='fb no'}
+}
+function place(c,target){
+  const sec=c.closest('.ex');if(!target||target.closest('.ex')!==sec)return;
+  const bank=sec.querySelector('.bank');
+  if(target.classList.contains('slot')){
+    const old=target.querySelector('.chip');
+    if(old&&old!==c){const from=c.parentElement;if(from.classList.contains('slot'))from.appendChild(old);else bank.appendChild(old)}
+    target.appendChild(c);
+  }else bank.appendChild(c);
+  clearMarks(sec);unselect();
+}
+function unselect(){if(selected)selected.classList.remove('sel');selected=null}
+
+// arrastar (rato e toque) + tocar para selecionar
+let drag=null;
+document.addEventListener('pointerdown',e=>{
+  const c=e.target.closest('.chip');if(!c||e.button>0)return;
+  drag={c,x:e.clientX,y:e.clientY,moved:false,ghost:null};
+});
+document.addEventListener('pointermove',e=>{
+  if(!drag)return;
+  if(!drag.moved&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6){
+    drag.moved=true;const g=drag.c.cloneNode(true);g.classList.add('ghost');g.classList.remove('sel');
+    g.style.width=Math.min(drag.c.offsetWidth,420)+'px';document.body.appendChild(g);drag.ghost=g;
+  }
+  if(drag.moved){drag.ghost.style.left=(e.clientX+8)+'px';drag.ghost.style.top=(e.clientY+8)+'px';
+    document.querySelectorAll('.slot.hot').forEach(s=>s.classList.remove('hot'));
+    const t=document.elementFromPoint(e.clientX,e.clientY);const s=t&&t.closest('.slot');if(s)s.classList.add('hot');e.preventDefault()}
+});
+document.addEventListener('pointerup',e=>{
+  if(!drag)return;const d=drag;drag=null;
+  document.querySelectorAll('.slot.hot').forEach(s=>s.classList.remove('hot'));
+  if(d.moved){d.ghost.remove();const t=document.elementFromPoint(e.clientX,e.clientY);
+    if(t)place(d.c,t.closest('.slot')||t.closest('.bank'));return}
+  // toque simples
+  const inSlot=d.c.parentElement.classList.contains('slot');
+  if(selected&&selected!==d.c&&inSlot){place(selected,d.c.parentElement);return}
+  if(inSlot&&!selected){place(d.c,d.c.closest('.ex').querySelector('.bank'));return}
+  if(selected===d.c){unselect();return}
+  unselect();selected=d.c;d.c.classList.add('sel');
+});
+document.addEventListener('pointercancel',()=>{if(drag&&drag.ghost)drag.ghost.remove();drag=null});
+document.addEventListener('click',e=>{
+  const s=e.target.closest('.slot');if(s&&!e.target.closest('.chip')&&selected)place(selected,s);
+});
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'&&e.key!==' ')return;
+  const c=e.target.closest&&e.target.closest('.chip');const s=e.target.closest&&e.target.closest('.slot');
+  if(c){e.preventDefault();if(c.parentElement.classList.contains('slot')&&!selected){place(c,c.closest('.ex').querySelector('.bank'))}else if(selected===c)unselect();else{unselect();selected=c;c.classList.add('sel')}}
+  else if(s&&selected){e.preventDefault();place(selected,s)}
+});
+build();
+</script>
+
+</body></html>
